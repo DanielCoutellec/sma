@@ -1,0 +1,69 @@
+<section class="section">
+  <h1>Contact</h1>
+
+  <div class="contact-grid">
+    <!-- Colonne gauche : infos de contact -->
+    <div>
+      <h2>Bureau de l'association</h2>
+      <ul class="contact-list">
+        <li>
+          <strong>Président</strong><br />
+          Nom Prénom<br />
+          Tél : 06 00 00 00 00
+        </li>
+        <li>
+          <strong>Secrétaire</strong><br />
+          Nom Prénom<br />
+          Tél : 06 00 00 00 00
+        </li>
+        <li>
+          <strong>Trésorier</strong><br />
+          Nom Prénom<br />
+          Tél : 05 00 00 00 00 – 06 00 00 00 00
+        </li>
+      </ul>
+
+      <p>
+        Pour plus de photos et de commentaires, retrouvez-nous sur Facebook.
+      </p>
+      <p>
+        <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
+          Notre page Facebook
+        </a>
+      </p>
+    </div>
+
+    <!-- Colonne droite : formulaire -->
+    <div>
+      <h2>Formulaire de contact</h2>
+
+      <% if (typeof success !== 'undefined') { %>
+        <p class="alert success"><%= success %></p>
+      <% } %>
+
+      <form method="POST" action="/contact" class="contact-form">
+        <label>
+          Nom<br />
+          <input type="text" name="name" required />
+        </label>
+
+        <label>
+          Email<br />
+          <input type="email" name="email" required />
+        </label>
+
+        <label>
+          Sujet<br />
+          <input type="text" name="subject" required />
+        </label>
+
+        <label>
+          Message<br />
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+  </div>
+</section>

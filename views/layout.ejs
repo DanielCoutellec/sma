@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %> - SMA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <div class="logo-mark">SMA</div>
+        <div class="logo-text">
+          <span class="logo-title">Sécurité Moto Assistance</span>
+          <span class="logo-sub">Nouvelle-Aquitaine · Courses cyclistes</span>
+        </div>
+      </div>
+
+      <nav class="main-nav">
+        <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Accueil</a>
+        <a href="/ag" class="<%= currentPath === '/ag' ? 'active' : '' %>">AG</a>
+        <a href="/courses-2025" class="<%= currentPath === '/courses-2025' ? 'active' : '' %>">Courses 2025</a>
+        <a href="/courses-2026" class="<%= currentPath === '/courses-2026' ? 'active' : '' %>">Courses 2026</a>
+        <a href="/trombinoscope" class="<%= currentPath === '/trombinoscope' ? 'active' : '' %>">Trombinoscope</a>
+        <a href="/contact" class="<%= currentPath === '/contact' ? 'active' : '' %>">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <div class="container">
+      <%- body %>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        © <%= new Date().getFullYear() %> Sécurité Moto Assistance Nouvelle-Aquitaine
+      </div>
+      <div class="footer-badge">
+        <span class="badge-dot"></span>
+        Sécurité · Moto · Courses cyclistes
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
