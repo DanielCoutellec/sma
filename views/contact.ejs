@@ -1,68 +1,61 @@
-<section class="section">
-  <h1>Contact</h1>
-
-  <div class="contact-grid">
-    <!-- Colonne gauche : infos de contact -->
-    <div>
-      <h2>Bureau de l'association</h2>
-      <ul class="contact-list">
-        <li>
-          <strong>Président</strong><br />
-          Nom Prénom<br />
-          Tél : 06 00 00 00 00
-        </li>
-        <li>
-          <strong>Secrétaire</strong><br />
-          Nom Prénom<br />
-          Tél : 06 00 00 00 00
-        </li>
-        <li>
-          <strong>Trésorier</strong><br />
-          Nom Prénom<br />
-          Tél : 05 00 00 00 00 – 06 00 00 00 00
-        </li>
-      </ul>
-
-      <p>
-        Pour plus de photos et de commentaires, retrouvez-nous sur Facebook.
-      </p>
-      <p>
-        <a href="https://www.facebook.com" target="_blank" rel="noreferrer">
-          Notre page Facebook
-        </a>
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <h2>Contact</h2>
+      <p class="muted">
+        Pour toute demande d’accompagnement sur une course ou une saison,
+        n’hésitez pas à nous contacter.
       </p>
     </div>
 
-    <!-- Colonne droite : formulaire -->
-    <div>
-      <h2>Formulaire de contact</h2>
+    <div class="contact-grid">
+      <div>
+        <ul class="contact-list">
+          <li>
+            <strong>Président</strong><br />
+            Nom Prénom<br />
+            Tél : 06 00 00 00 00
+          </li>
+          <li>
+            <strong>Secrétaire</strong><br />
+            Nom Prénom<br />
+            Tél : 06 00 00 00 00
+          </li>
+          <li>
+            <strong>Trésorier</strong><br />
+            Nom Prénom<br />
+            Tél : 06 00 00 00 00
+          </li>
+        </ul>
 
-      <% if (typeof success !== 'undefined') { %>
-        <p class="alert success"><%= success %></p>
-      <% } %>
+        <p>
+          Retrouvez aussi les photos et comptes rendus sur notre page Facebook.
+        </p>
+      </div>
 
-      <form method="POST" action="/contact" class="contact-form">
+      <form class="contact-form" id="contactForm" method="POST" action="/contact">
         <label>
           Nom<br />
           <input type="text" name="name" required />
         </label>
-
         <label>
           Email<br />
           <input type="email" name="email" required />
         </label>
-
         <label>
           Sujet<br />
           <input type="text" name="subject" required />
         </label>
-
         <label>
           Message<br />
-          <textarea name="message" rows="5" required></textarea>
+          <textarea name="message" rows="4" required></textarea>
         </label>
-
         <button type="submit">Envoyer</button>
+        <p class="form-feedback" id="formFeedback">
+          <% if (typeof success !== "undefined") { %>
+            <%= success %>
+          <% } %>
+        </p>
       </form>
     </div>
   </div>

@@ -13,7 +13,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(expressLayouts);
 app.set("layout", "layout");
 
-// fichiers statiques (CSS, images)
+// fichiers statiques (CSS, images, JS front)
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
@@ -59,12 +59,12 @@ app.post("/contact", (req, res) => {
   });
 });
 
-// 🔥 IMPORTANT : on écoute SEULEMENT en local
+// seulement en local
 if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Serveur lancé sur http://localhost:${PORT}`);
   });
 }
 
-// 🔥 Et on exporte l'app pour Vercel
+// export pour Vercel éventuel
 module.exports = app;
