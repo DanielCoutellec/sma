@@ -98,14 +98,15 @@ app.get("/courses2026", (req, res) => {
 });
 
 app.get("/trombinoscope", (req, res) => {
-  const membres = JSON.parse(fs.readFileSync(path.join(__dirname, "data", "membres.json"), "utf-8")
+  const membres = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "data", "membres.json"), "utf-8")
   );
 
   res.render("trombinoscope", {
     currentPath: "/trombinoscope",
     membres,
   });
-}); // ✅ fermeture de la route
+});
 
 app.get("/contact", (req, res) =>
   res.render("contact", { currentPath: "/contact" })
