@@ -1,19 +1,5 @@
 [
   {
-    "mois": "JUILLET 26",
-    "date": "18 juillrt",
-    "epreuve": "PERIGORD LADIES",
-    "lieu": "",
-    "type": "",
-    "statut": "Prévisionnel",
-    "photos": "",
-    "classement": "",
-    "nb_motos": "14",
-    "heure": "",
-    "responsable": "",
-    "info": ""
-  },
-  {
     "mois": "MARS 26",
     "date": "1er MARS",
     "epreuve": "TOUR DES 4B",
@@ -415,6 +401,20 @@
     "photos": "",
     "classement": "",
     "nb_motos": "4",
+    "heure": "",
+    "responsable": "",
+    "info": ""
+  },
+  {
+    "mois": "JUILLET 26",
+    "date": "18/07/2026",
+    "epreuve": "PERIGORD LADIES",
+    "lieu": "",
+    "type": "",
+    "statut": "Prévisionnel",
+    "photos": "",
+    "classement": "",
+    "nb_motos": "14",
     "heure": "",
     "responsable": "",
     "info": ""
