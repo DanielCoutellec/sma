@@ -11,11 +11,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.0",
     "ejs": "^3.1.10",
-    "express-ejs-layouts": "^2.5.1"
+    "express": "^4.19.0",
+    "express-ejs-layouts": "^2.5.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielCoutellec/sma.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DanielCoutellec/sma/issues"
+  },
+  "homepage": "https://github.com/DanielCoutellec/sma#readme"
 }

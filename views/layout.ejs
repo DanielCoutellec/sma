@@ -5,6 +5,7 @@
     <title>SMA – Sécurité Moto Assistance</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="/css/styles.css" />
+    <script src="/js/main.js" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -17,19 +18,39 @@
           />
         </a>
 
-        <nav class="main-nav">
-          <a href="/">Accueil</a>
-          <a href="/ag">AG</a>
-          <a href="/courses2025">Courses 2025</a>
-          <a href="/courses2026">Courses 2026</a>
-          <a href="/trombinoscope">Trombinoscope</a>
-          <a href="/contact">Contact</a>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu">
+          ☰
+        </button>
+
+        <nav class="main-nav" id="mainNav">
+          <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Accueil</a>
+          <a href="/ag" class="<%= currentPath === '/ag' ? 'active' : '' %>">AG</a>
+          <a href="/courses2026" class="<%= currentPath === '/courses2026' ? 'active' : '' %>">Courses 2026</a>
+		  <a href="/participations" class="<%= currentPath === '/participations' ? 'active' : '' %>">Participations</a>
+          <a href="/trombinoscope" class="<%= currentPath === '/trombinoscope' ? 'active' : '' %>">Trombinoscope</a>
+          <a href="/contact" class="<%= currentPath === '/contact' ? 'active' : '' %>">Contact</a>
         </nav>
       </div>
     </header>
 
     <main class="site-main">
+	
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" type="button" aria-label="Fermer">✕</button>
+  <img class="lightbox-img" src="" alt="" />
+</div>
+
+
       <%- body %>
     </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="muted" style="margin:0; padding:14px 0;">
+          © <%= new Date().getFullYear() %> SMA Nouvelle-Aquitaine — Sécurité Moto Assistance
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

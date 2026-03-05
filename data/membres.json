@@ -1,0 +1,162 @@
+  [
+  {
+    "nom": "Dominique Frattini",
+    "role": "Président d'honneur",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-dominique-frattini.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Francis Bouillon",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-francis-bouillon.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Serge Joubert",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-serge-joubert.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Alain Loriau",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-alain-loriau.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Bernard Lafarge",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-bernard-lafarge.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Didier Bernard",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-didier-bernard.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Dominique Masme",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-dominique-masme.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Dominique Trémulot",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-dominique-tremulot.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Emmanuel Martin",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-emmanuel-martin.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Eric Quidu",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-eric-quidu.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "François Feris",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-francois-feris.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "François Robert",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-francois-robert.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Frédéric Zanetti",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-frederic-zanetti.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Jean-Luc Bourdeau",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-jean-luc-bourdeau.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Jean-Michel Poignant",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-jean-michel-poignant.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Jocelyne Alves",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-jocelyne-alves.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Joël Ricard",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-joel-ricard.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Loïc Quidu",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-loic-quidu.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Ludovic Esposito",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Sécurité course", "Moto sécurité"],
+    "photo": "/img/photo-ludovic-esposito.jpg",
+    "contact": "/contact"
+  },
+  {
+    "nom": "Régis Capdarest",
+    "role": "Moto Sécurité",
+    "dept": "Gironde (33)",
+    "tags": ["Dépannage", "Presse", "Médicale"],
+    "photo": "/img/photo-regis-capdarest.jpg",
+    "contact": "/contact"
+  }
+]

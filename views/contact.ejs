@@ -1,62 +1,112 @@
-<section class="section" id="contact">
+<section class="section">
   <div class="container">
+
     <div class="section-header">
-      <h2>Contact</h2>
-      <p class="muted">
-        Pour toute demande d’accompagnement sur une course ou une saison,
-        n’hésitez pas à nous contacter.
+      <h1>Contact</h1>
+      <p class="lead muted">
+        Une question, une course à sécuriser, une demande de bénévoles ?
+        Contactez le bureau SMA Nouvelle-Aquitaine.
       </p>
     </div>
 
     <div class="contact-grid">
-      <div>
-        <ul class="contact-list">
-          <li>
-            <strong>Président</strong><br />
-            Nom Prénom<br />
-            Tél : 06 00 00 00 00
-          </li>
-          <li>
-            <strong>Secrétaire</strong><br />
-            Nom Prénom<br />
-            Tél : 06 00 00 00 00
-          </li>
-          <li>
-            <strong>Trésorier</strong><br />
-            Nom Prénom<br />
-            Tél : 06 00 00 00 00
-          </li>
-        </ul>
 
-        <p>
-          Retrouvez aussi les photos et comptes rendus sur notre page Facebook.
+      <!-- COLONNE GAUCHE : Contacts -->
+      <section class="contact-card">
+        <h2>Contacts</h2>
+        <p class="muted" style="margin-top:6px;">
+          Appel / SMS privilégié. Laissez un message si besoin.
         </p>
-      </div>
 
-      <form class="contact-form" id="contactForm" method="POST" action="/contact">
-        <label>
-          Nom<br />
-          <input type="text" name="name" required />
-        </label>
-        <label>
-          Email<br />
-          <input type="email" name="email" required />
-        </label>
-        <label>
-          Sujet<br />
-          <input type="text" name="subject" required />
-        </label>
-        <label>
-          Message<br />
-          <textarea name="message" rows="4" required></textarea>
-        </label>
-        <button type="submit">Envoyer</button>
-        <p class="form-feedback" id="formFeedback">
-          <% if (typeof success !== "undefined") { %>
-            <%= success %>
-          <% } %>
+        <div class="contact-list">
+
+          <!-- ✅ Mets ici tes vrais noms + numéros -->
+          <article class="contact-item">
+            <div class="contact-avatar">👤</div>
+            <div class="contact-info">
+              <div class="contact-name">José Alves</div>
+              <div class="contact-role muted">Président</div>
+              <a class="contact-phone" href="tel:+33664559901">06 64 55 99 01</a>
+            </div>
+          </article>
+
+          <article class="contact-item">
+            <div class="contact-avatar">👤</div>
+            <div class="contact-info">
+              <div class="contact-name">Jocelyne Alves</div>
+              <div class="contact-role muted">Secrétaire</div>
+              <a class="contact-phone" href="tel:+33664559901">06 64 55 99 01</a>
+            </div>
+          </article>
+
+          <article class="contact-item">
+            <div class="contact-avatar">👤</div>
+            <div class="contact-info">
+              <div class="contact-name">José Alves</div>
+              <div class="contact-role muted">Trésorier</div>
+              <a class="contact-phone" href="tel:+33664559901">06 64 55 99 01</a>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="contact-links">
+          <a class="btn btn-ghost" target="_blank" rel="noopener"
+             href="https://www.facebook.com/profile.php?id=100069236506367#">
+            <span class="icon" aria-hidden="true">
+              <!-- Icône Facebook (SVG) -->
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06C2 17.08 5.66 21.23 10.44 22v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.87h2.78l-.44 2.91h-2.34V22C18.34 21.23 22 17.08 22 12.06z"/>
+              </svg>
+            </span>
+            Facebook SMA
+          </a>
+
+          <a class="btn btn-primary" href="/trombinoscope">
+            Voir le trombinoscope
+          </a>
+        </div>
+      </section>
+
+      <!-- COLONNE DROITE : Formulaire moderne -->
+      <section class="contact-card">
+        <h2>Écrire au bureau</h2>
+        <p class="muted" style="margin-top:6px;">
+          Ce formulaire est une simulation (pas d’envoi automatique).
+          Il affiche un message de confirmation.
         </p>
-      </form>
+
+        <form id="contactForm" class="form-modern">
+          <div class="form-row">
+            <label>
+              <span>Nom</span>
+              <input type="text" name="name" placeholder="Votre nom" required />
+            </label>
+
+            <label>
+              <span>Email</span>
+              <input type="email" name="email" placeholder="vous@exemple.com" required />
+            </label>
+          </div>
+
+          <label>
+            <span>Sujet</span>
+            <input type="text" name="subject" placeholder="Organisation, course, bénévoles..." />
+          </label>
+
+          <label>
+            <span>Message</span>
+            <textarea name="message" rows="6" placeholder="Décrivez votre besoin..." required></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+            <p id="formFeedback" class="muted" style="margin:0;"></p>
+          </div>
+        </form>
+      </section>
+
     </div>
+
   </div>
 </section>

@@ -1,36 +1,57 @@
 <section class="section">
-  <h1>Trombinoscope</h1>
-  <p class="muted">
-    Membres de Sécurité Moto Assistance Nouvelle-Aquitaine (bureau et motards).
-  </p>
+  <div class="container">
+    <div class="page-head">
+      <p class="page-kicker">L’ÉQUIPE</p>
+      <h1 class="page-title">Trombinoscope</h1>
+      <p class="muted page-lead">
+        Les motards SMA mobilisés pour la sécurité, l’information et l’assistance sur les courses.
+      </p>
 
-  <div class="trombi-grid">
-    <!-- Exemple de fiches. Tu peux adapter les noms, rôles et photos. -->
+      <div class="page-actions">
+        <a href="/contact" class="btn btn-primary">Contacter SMA</a>
+        <a href="/courses2026" class="btn btn-ghost">Voir les courses</a>
+      </div>
+    </div>
+    <!-- Grille de profils -->
+ <div class="team-grid">
+  <% membres.forEach(m => { %>
+    <article class="person-card">
+      <div class="person-top">
+        <div class="avatar">
+          <img src="<%= m.photo %>" alt="<%= m.nom %> – <%= m.role %> SMA" />
+        </div>
 
-    <div class="trombi-card">
-      <img src="/img/marie-pierre-gissat.jpg" alt="Marie Pierre GISSAT" />
-      <h3>Marie Pierre GISSAT</h3>
-      <p>Présidente de SMANA et ardoisière.</p>
+        <div class="person-meta">
+          <h3><%= m.nom %></h3>
+          <p class="muted"><%= m.role %></p>
+
+          <div class="person-tags">
+            <% (m.tags || []).forEach(t => { %>
+              <span><%= t %></span>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <% if (m.contact) { %>
+        <a class="btn" href="<%= m.contact %>">Contacter</a>
+      <% } %>
+    </article>
+  <% }) %>
+</div>	  
+      <!-- ====== FIN EXEMPLES ====== -->
     </div>
 
-    <div class="trombi-card">
-      <img src="/img/photo-frattini-sma.jpg" alt="Dominique FRATTINI" />
-      <h3>Dominique FRATTINI</h3>
-      <p>Moto info – Président d’honneur de SMANA.</p>
-    </div>
-
-    <div class="trombi-card">
-      <img src="/img/jose-alves.jpg" alt="José ALVES" />
-      <h3>José ALVES</h3>
-      <p>Trésorier SMA.</p>
-    </div>
-
-    <div class="trombi-card">
-      <img src="/img/membre-4.jpg" alt="Nom Prénom" />
-      <h3>Nom Prénom</h3>
-      <p>Rôle dans l’association.</p>
-    </div>
-
-    <!-- Tu peux dupliquer ces blocs autant que tu veux pour ajouter des membres -->
+    <!-- Petit encart -->
+    <section class="section section-alt" style="border-radius:22px; margin-top:18px;">
+      <div class="container" style="padding-top:22px; padding-bottom:22px;">
+        <h2 style="margin:0 0 8px;">Envie de rejoindre SMA ?</h2>
+        <p class="muted" style="margin:0 0 14px;">
+          Motard(e) bénévole, formé(e) ou motivé(e) : écris-nous et on t’explique la démarche.
+        </p>
+        <a href="/contact" class="btn btn-primary">Nous écrire</a>
+      </div>
+    </section>
   </div>
 </section>
+

@@ -1,22 +1,108 @@
 <section class="section">
-  <h1>Courses 2026</h1>
-  <p class="muted">
-    Calendrier prévisionnel des courses 2026. Cette page est en cours de construction.
-  </p>
+  <div class="container">
+    <div class="page-head">
+      <p class="page-kicker">CALENDRIER</p>
+      <h1 class="page-title">Courses 2026</h1>
+      <p class="muted page-lead">
+        Planning prévisionnel des épreuves accompagnées en 2026.
+        Les informations peuvent évoluer : contactez-nous pour confirmer la disponibilité SMA.
+      </p>
 
-  <div class="gallery-grid">
-    <!-- Tu pourras remplacer ces blocs par des affiches ou des cartes de course -->
-    <div class="gallery-item placeholder">
-      <p>Ajouter une course 2026 (affiche ou description)</p>
+      <div class="page-actions">
+        <a href="/contact" class="btn btn-primary">Demander une assistance</a>
+        <a href="/participations" class="btn btn-ghost">Participations</a>
+      </div>
     </div>
-    <div class="gallery-item placeholder">
-      <p>Ajouter une course 2026 (affiche ou description)</p>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <p class="kpi-label">Épreuves</p>
+        <p class="kpi-value"><%= (courses || []).length %></p>
+        <p class="kpi-note">Route · Critériums · Cyclosportives</p>
+      </div>
+
+      <div class="kpi-card">
+        <p class="kpi-label">Zone</p>
+        <p class="kpi-value">Nouvelle-Aquitaine</p>
+        <p class="kpi-note">Selon disponibilité</p>
+      </div>
+
+      <div class="kpi-card">
+        <p class="kpi-label">Contact organisation</p>
+        <p class="kpi-value">SMA</p>
+        <p class="kpi-note">Réponse rapide</p>
+      </div>
     </div>
-    <div class="gallery-item placeholder">
-      <p>Ajouter une course 2026 (affiche ou description)</p>
+
+    <% if (groupedCourses && groupedCourses.length) { %>
+
+  <% groupedCourses.forEach(function(g){ %>
+
+    <h3 class="month-title" style="margin:18px 0 10px;"><%= g.mois %></h3>
+
+    <div class="courses-table" role="table" aria-label="Courses <%= g.mois %>">
+      <div class="t-row t-head" role="row">
+        <div class="t-cell" role="columnheader">Date</div>
+        <div class="t-cell" role="columnheader">Épreuve</div>
+        <div class="t-cell" role="columnheader">Lieu</div>
+        <div class="t-cell" role="columnheader">Type</div>
+        <div class="t-cell" role="columnheader">Statut</div>
+        <div class="t-cell" role="columnheader">Photos</div>
+        <div class="t-cell" role="columnheader">Classement</div>
+      </div>
+
+      <% g.items.forEach(function(course){ %>
+        <div class="t-row" role="row">
+          <div class="t-cell"><%= course.date %></div>
+          <div class="t-cell"><%= course.epreuve %></div>
+          <div class="t-cell"><%= course.lieu %></div>
+          <div class="t-cell">
+            <% if (course.type) { %><span class="badge"><%= course.type %></span><% } %>
+          </div>
+          <div class="t-cell">
+            <span class="badge badge-yellow"><%= course.statut || "Prévisionnel" %></span>
+          </div>
+
+          <!-- icônes: actives si lien, sinon grisées -->
+          <div class="t-cell">
+            <% if (course.photos) { %>
+              <a href="<%= course.photos %>" class="btn-table" title="Photos" target="_blank" rel="noopener">📷</a>
+            <% } else { %>
+              <span class="btn-table is-disabled" title="Pas de photos">📷</span>
+            <% } %>
+          </div>
+
+          <div class="t-cell">
+            <% if (course.classement) { %>
+              <a href="<%= course.classement %>" class="btn-table" title="Classement" target="_blank" rel="noopener">🏁</a>
+            <% } else { %>
+              <span class="btn-table is-disabled" title="Pas de classement">🏁</span>
+            <% } %>
+          </div>
+        </div>
+      <% }); %>
+
     </div>
-    <div class="gallery-item placeholder">
-      <p>Ajouter une course 2026 (affiche ou description)</p>
+
+  <% }); %>
+
+<% } else { %>
+  <p class="muted">Aucune course enregistrée.</p>
+<% } %>
+      </div>
     </div>
+
+    <!-- CTA -->
+    <section class="section section-alt" style="border-radius:22px; margin-top:18px;">
+      <div class="container" style="padding-top:22px; padding-bottom:22px;">
+        <h2 style="margin:0 0 8px;">Vous organisez une course en 2026 ?</h2>
+        <p class="muted" style="margin:0 0 14px;">
+          Date + lieu + format : on vous répond avec une proposition d’accompagnement.
+        </p>
+        <a href="/contact" class="btn btn-primary">Contacter SMA</a>
+      </div>
+    </section>
+
   </div>
 </section>
