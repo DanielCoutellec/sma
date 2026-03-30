@@ -1,0 +1,35 @@
+<section class="section">
+  <div class="container">
+    <div class="page-head">
+      <p class="page-kicker">GALERIE</p>
+      <h1 class="page-title">Photos de la course</h1>
+      <p class="muted page-lead"><%= slug %></p>
+
+      <div class="page-actions">
+        <a href="/courses2026" class="btn btn-ghost">← Retour aux courses</a>
+      </div>
+    </div>
+
+    <% if (photos && photos.length) { %>
+      <div class="gallery-grid" style="margin-top:18px;">
+        <% photos.forEach(function(photo, index) { %>
+          <div class="gallery-item">
+            <img
+              src="<%= photo %>"
+              alt="Photo course <%= index + 1 %>"
+              class="zoomable"
+              data-caption="Photo <%= index + 1 %> — <%= slug %>"
+            />
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="table-card" style="margin-top:18px;">
+        <div class="table-head">
+          <h2>Galerie</h2>
+          <p class="muted" style="margin:0;">Aucune photo disponible.</p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>

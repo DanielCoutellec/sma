@@ -4,7 +4,43 @@ const expressLayouts = require("express-ejs-layouts");
 const fs = require("fs");
 
 const app = express();
+app.get("/photos/:slug", (req, res) => {
+  try {
+    const slug = req.params.slug;
 
+    const galleryDir = path.join(
+      process.cwd(),
+      "public",
+      "img",
+      "Course",
+      "photos",
+      slug
+    );
+
+    if (!fs.existsSync(galleryDir)) {
+      return res.status(404).send("Galerie introuvable");
+    }
+
+    const allowedExt = [".jpg", ".jpeg", ".png", ".webp"];
+    const files = fs
+      .readdirSync(galleryDir)
+      .filter((file) => allowedExt.includes(path.extname(file).toLowerCase()))
+      .sort((a, b) => a.localeCompare(b, "fr"));
+
+    const photos = files.map(
+      (file) => `/img/Course/photos/${slug}/${file}`
+    );
+
+    res.render("photos", {
+      currentPath: "",
+      slug,
+      photos,
+    });
+  } catch (err) {
+    console.error("ERROR /photos/:slug", err);
+    res.status(500).send("Erreur serveur galerie");
+  }
+});
 // --- Static files (/css, /js, /img...) ---
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -134,4 +170,29 @@ if (require.main === module) {
 }
 
 // --- Export for Vercel ---
+app.get("/photos/:slug", (req, res) => {
+  const slug = req.params.slug;
+
+  // Dossier des photos dans /public
+  const dir = path.join(process.cwd(), "public", "img", "courses", slug);
+
+  let photos = [];
+  try {
+    if (fs.existsSync(dir)) {
+      photos = fs
+        .readdirSync(dir)
+        .filter((f) => /\.(jpe?g|png|webp|gif)$/i.test(f))
+        .sort()
+        .map((f) => `/img/courses/${slug}/${f}`);
+    }
+  } catch (e) {
+    console.error("Gallery error:", e);
+  }
+
+  res.render("photos", {
+    currentPath: "/courses2026",
+    slug,
+    photos,
+  });
+});
 module.exports = app;

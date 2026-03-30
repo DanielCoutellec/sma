@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // ===== MENU MOBILE =====
   const navToggle = document.getElementById("navToggle");
   const mainNav = document.getElementById("mainNav");
 
@@ -8,81 +7,86 @@ document.addEventListener("DOMContentLoaded", () => {
       const isOpen = mainNav.classList.toggle("open");
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
     });
-
-    mainNav.querySelectorAll("a").forEach((a) => {
-      a.addEventListener("click", () => mainNav.classList.remove("open"));
-    });
   }
 
-  // ===== LIGHTBOX (toutes les images) =====
-  const selector = ".site-main img, .site-header img, .site-footer img";
-  const imgs = Array.from(document.querySelectorAll(selector));
+  const images = [...document.querySelectorAll(".zoomable")];
+  if (!images.length) return;
 
-  // On évite les petites icônes si tu veux (ex: logo) -> commente/décommente
-  // const imgs = Array.from(document.querySelectorAll(".site-main img"));
+  let currentIndex = 0;
 
-  // crée la lightbox une seule fois
-  const lb = document.createElement("div");
-  lb.className = "lightbox";
-  lb.innerHTML = `
-    <div class="lightbox__backdrop" data-close="1"></div>
-    <figure class="lightbox__panel" role="dialog" aria-modal="true">
-      <button class="lightbox__close" type="button" aria-label="Fermer" data-close="1">✕</button>
+  const lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+
+  lightbox.innerHTML = `
+    <div class="lightbox__backdrop"></div>
+    <button class="lightbox__nav lightbox__prev" type="button" aria-label="Photo précédente">&#10094;</button>
+    <button class="lightbox__nav lightbox__next" type="button" aria-label="Photo suivante">&#10095;</button>
+    <div class="lightbox__panel">
+      <button class="lightbox__close" type="button" aria-label="Fermer">✕</button>
       <img class="lightbox__img" alt="">
-      <figcaption class="lightbox__caption"></figcaption>
-    </figure>
+      <p class="lightbox__caption"></p>
+    </div>
   `;
-  document.body.appendChild(lb);
 
-  const lbImg = lb.querySelector(".lightbox__img");
-  const lbCap = lb.querySelector(".lightbox__caption");
+  document.body.appendChild(lightbox);
 
-  function openLightbox(imgEl) {
-    lbImg.src = imgEl.currentSrc || imgEl.src;
-    lbImg.alt = imgEl.alt || "Image";
-    lbCap.textContent = imgEl.alt || "";
-    lb.classList.add("open");
-    document.documentElement.classList.add("no-scroll");
+  const img = lightbox.querySelector(".lightbox__img");
+  const caption = lightbox.querySelector(".lightbox__caption");
+  const closeBtn = lightbox.querySelector(".lightbox__close");
+  const prevBtn = lightbox.querySelector(".lightbox__prev");
+  const nextBtn = lightbox.querySelector(".lightbox__next");
+  const backdrop = lightbox.querySelector(".lightbox__backdrop");
+
+  function showImage(index) {
+    currentIndex = index;
+    const el = images[index];
+    img.src = el.getAttribute("src");
+    img.alt = el.alt || "";
+    caption.textContent = el.dataset.caption || "";
+    lightbox.classList.add("open");
+    document.body.classList.add("no-scroll");
   }
 
   function closeLightbox() {
-    lb.classList.remove("open");
-    document.documentElement.classList.remove("no-scroll");
-    lbImg.src = ""; // libère
+    lightbox.classList.remove("open");
+    document.body.classList.remove("no-scroll");
   }
 
-  // bind images
-  imgs.forEach((img) => {
-    // ignore si pas de src
-    if (!img.getAttribute("src")) return;
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+  }
 
-    img.classList.add("zoomable");
-    img.style.cursor = "zoom-in";
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage(currentIndex);
+  }
 
-    img.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      openLightbox(img);
-    });
+  images.forEach((el, index) => {
+    el.addEventListener("click", () => showImage(index));
   });
 
-  // close handlers
-  lb.addEventListener("click", (e) => {
-    if (e.target && e.target.getAttribute("data-close") === "1") closeLightbox();
+  prevBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    prevImage();
   });
+
+  nextBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    nextImage();
+  });
+
+  closeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    closeLightbox();
+  });
+
+  backdrop.addEventListener("click", closeLightbox);
 
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && lb.classList.contains("open")) closeLightbox();
+    if (!lightbox.classList.contains("open")) return;
+    if (e.key === "ArrowRight") nextImage();
+    if (e.key === "ArrowLeft") prevImage();
+    if (e.key === "Escape") closeLightbox();
   });
-
-  // ===== SIMULATION FORMULAIRE CONTACT =====
-  const contactForm = document.getElementById("contactForm");
-  const feedback = document.getElementById("formFeedback");
-  if (contactForm && feedback) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      feedback.textContent = "Merci, votre message a bien été pris en compte (simulation).";
-      contactForm.reset();
-    });
-  }
 });

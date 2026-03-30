@@ -1,8 +1,11 @@
 <section class="section">
   <div class="container">
+
+    <!-- HEADER -->
     <div class="page-head">
       <p class="page-kicker">L’ÉQUIPE</p>
       <h1 class="page-title">Trombinoscope</h1>
+
       <p class="muted page-lead">
         Les motards SMA mobilisés pour la sécurité, l’information et l’assistance sur les courses.
       </p>
@@ -12,37 +15,57 @@
         <a href="/courses2026" class="btn btn-ghost">Voir les courses</a>
       </div>
     </div>
-    <!-- Grille de profils -->
- <div class="team-grid">
-  <% membres.forEach(m => { %>
-    <article class="person-card">
-      <div class="person-top">
-        <div class="avatar">
-          <img src="<%= m.photo %>" alt="<%= m.nom %> – <%= m.role %> SMA" />
-        </div>
 
-        <div class="person-meta">
-          <h3><%= m.nom %></h3>
-          <p class="muted"><%= m.role %></p>
+    <!-- GRID MEMBRES -->
+    <div class="team-grid">
 
-          <div class="person-tags">
-            <% (m.tags || []).forEach(t => { %>
-              <span><%= t %></span>
-            <% }) %>
+      <% membres.forEach((m, index) => { %>
+
+        <article class="person-card">
+
+          <!-- TOP -->
+          <div class="person-top">
+
+            <div class="avatar">
+              <img
+                src="<%= m.photo %>"
+                alt="<%= m.nom %>"
+                class="zoomable"
+                data-caption="<%= m.nom %><%= m.role ? ' – ' + m.role : '' %>"
+                onerror="this.onerror=null;this.src='/img/avatar-defaut.jpg';"
+              />
+            </div>
+
+            <div class="person-meta">
+              <h3><%= m.nom %></h3>
+
+              <% if (m.role) { %>
+                <p class="muted"><%= m.role %></p>
+              <% } %>
+
+              <% if (m.tags && m.tags.length) { %>
+                <div class="person-tags">
+                  <% m.tags.forEach(tag => { %>
+                    <span><%= tag %></span>
+                  <% }) %>
+                </div>
+              <% } %>
+            </div>
+
           </div>
-        </div>
-      </div>
 
-      <% if (m.contact) { %>
-        <a class="btn" href="<%= m.contact %>">Contacter</a>
-      <% } %>
-    </article>
-  <% }) %>
-</div>	  
-      <!-- ====== FIN EXEMPLES ====== -->
+          <!-- BOTTOM -->
+          <div class="person-actions">
+            <span class="muted"><%= m.dept || "SMA" %></span>
+          </div>
+
+        </article>
+
+      <% }) %>
+
     </div>
 
-    <!-- Petit encart -->
+    <!-- CTA -->
     <section class="section section-alt" style="border-radius:22px; margin-top:18px;">
       <div class="container" style="padding-top:22px; padding-bottom:22px;">
         <h2 style="margin:0 0 8px;">Envie de rejoindre SMA ?</h2>
@@ -52,6 +75,6 @@
         <a href="/contact" class="btn btn-primary">Nous écrire</a>
       </div>
     </section>
+
   </div>
 </section>
-

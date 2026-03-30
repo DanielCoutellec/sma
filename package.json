@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+	"update-courses": "node scripts/excel-to-json.js && git add data/courses2026.json && git commit -m \"update calendrier 2026\" && git push && vercel --prod"
   },
   "keywords": [],
   "author": "",

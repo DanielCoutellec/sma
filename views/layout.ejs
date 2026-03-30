@@ -1,56 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <title>SMA â€“ SÃ©curitÃ© Moto Assistance</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/css/styles.css" />
-    <script src="/js/main.js" defer></script>
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="header-inner">
-        <a href="/" class="logo-sma">
-          <img
-            src="/img/logo-moto-securite.jpg"
-            alt="Moto SÃ©curitÃ© Assistance"
-            class="logo-sma-img"
-          />
-        </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMA – Sécurité Moto Assistance</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script src="/js/main.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="logo-sma" aria-label="Accueil SMA">
+        <img
+          src="/img/logo-moto-securite.jpg"
+          alt="Moto Sécurité Assistance"
+          class="logo-sma-img"
+        />
+      </a>
 
-        <button class="nav-toggle" id="navToggle" type="button" aria-label="Menu">
-          â˜°
-        </button>
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        type="button"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="mainNav"
+      >
+        ?
+      </button>
 
-        <nav class="main-nav" id="mainNav">
-          <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Accueil</a>
-          <a href="/ag" class="<%= currentPath === '/ag' ? 'active' : '' %>">AG</a>
-          <a href="/courses2026" class="<%= currentPath === '/courses2026' ? 'active' : '' %>">Courses 2026</a>
-		  <a href="/participations" class="<%= currentPath === '/participations' ? 'active' : '' %>">Participations</a>
-          <a href="/trombinoscope" class="<%= currentPath === '/trombinoscope' ? 'active' : '' %>">Trombinoscope</a>
-          <a href="/contact" class="<%= currentPath === '/contact' ? 'active' : '' %>">Contact</a>
-        </nav>
-      </div>
-    </header>
+      <nav class="main-nav" id="mainNav">
+        <a href="/" class="<%= currentPath === '/' ? 'active' : '' %>">Accueil</a>
+        <a href="/ag" class="<%= currentPath === '/ag' ? 'active' : '' %>">AG</a>
+        <a href="/courses2026" class="<%= currentPath === '/courses2026' ? 'active' : '' %>">Courses 2026</a>
+        <a href="/participations" class="<%= currentPath === '/participations' ? 'active' : '' %>">Participations</a>
+        <a href="/trombinoscope" class="<%= currentPath === '/trombinoscope' ? 'active' : '' %>">Trombinoscope</a>
+        <a href="/contact" class="<%= currentPath === '/contact' ? 'active' : '' %>">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <main class="site-main">
-	
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" aria-hidden="true">
-  <button class="lightbox-close" type="button" aria-label="Fermer">âœ•</button>
-  <img class="lightbox-img" src="" alt="" />
-</div>
+  <main class="site-main">
+    <%- body %>
+  </main>
 
-
-      <%- body %>
-    </main>
-
-    <footer class="site-footer">
-      <div class="container">
-        <p class="muted" style="margin:0; padding:14px 0;">
-          Â© <%= new Date().getFullYear() %> SMA Nouvelle-Aquitaine â€” SÃ©curitÃ© Moto Assistance
-        </p>
-      </div>
-    </footer>
-  </body>
+  <footer class="site-footer">
+    <div class="container">
+      <p class="muted" style="margin:0; padding:14px 0;">
+        © <%= new Date().getFullYear() %> SMA Nouvelle-Aquitaine — Sécurité Moto Assistance
+      </p>
+    </div>
+  </footer>
+</body>
 </html>
