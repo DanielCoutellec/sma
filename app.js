@@ -24,14 +24,20 @@ app.use(express.json());
 // =========================
 function loadJson(relativePath, fallback = []) {
   try {
-    const fullPath = path.join(__dirname, relativePath);
+    const fullPath = path.resolve(process.cwd(), relativePath);
 
-    if (!fs.existsSync(fullPath)) return fallback;
+    console.log("READ FILE:", fullPath);
+
+    if (!fs.existsSync(fullPath)) {
+      console.log("FILE NOT FOUND:", fullPath);
+      return fallback;
+    }
 
     const raw = fs.readFileSync(fullPath, "utf8");
     return JSON.parse(raw);
+
   } catch (err) {
-    console.error("Erreur lecture JSON: " + relativePath, err);
+    console.error("JSON ERROR:", err);
     return fallback;
   }
 }
@@ -130,7 +136,7 @@ app.get("/photos/:slug", (req, res) => {
       __dirname,
       "public",
       "img",
-      "Course",
+      "course",
       "photos",
       slug
     );
@@ -142,7 +148,7 @@ app.get("/photos/:slug", (req, res) => {
     const files = fs.readdirSync(dir);
 
     const photos = files.map(function (file) {
-      return "/img/Course/photos/" + slug + "/" + file;
+      return "/img/course/photos/" + slug + "/" + file;
     });
 
     res.render("photos", {
