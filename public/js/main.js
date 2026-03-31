@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // =========================
+  // MENU MOBILE
+  // =========================
   const navToggle = document.getElementById("navToggle");
   const mainNav = document.getElementById("mainNav");
 
@@ -9,6 +12,104 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // =========================
+  // SLIDER HERO ACCUEIL
+  // =========================
+  const heroSlider = document.getElementById("heroSlider");
+  const heroPrev = document.querySelector(".hero-slider-btn-prev");
+  const heroNext = document.querySelector(".hero-slider-btn-next");
+
+  if (heroSlider && heroPrev && heroNext) {
+    let autoSlide = null;
+
+    const getHeroScrollAmount = () => {
+      const slide = heroSlider.querySelector(".hero-slide");
+      return slide ? slide.getBoundingClientRect().width + 10 : heroSlider.clientWidth;
+    };
+
+    const nextHeroSlide = () => {
+      const amount = getHeroScrollAmount();
+      const maxScrollLeft = heroSlider.scrollWidth - heroSlider.clientWidth;
+
+      if (heroSlider.scrollLeft >= maxScrollLeft - 5) {
+        heroSlider.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        heroSlider.scrollBy({ left: amount, behavior: "smooth" });
+      }
+    };
+
+    const prevHeroSlide = () => {
+      const amount = getHeroScrollAmount();
+      const maxScrollLeft = heroSlider.scrollWidth - heroSlider.clientWidth;
+
+      if (heroSlider.scrollLeft <= 5) {
+        heroSlider.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
+      } else {
+        heroSlider.scrollBy({ left: -amount, behavior: "smooth" });
+      }
+    };
+
+    function startAutoSlide() {
+      stopAutoSlide();
+      autoSlide = setInterval(nextHeroSlide, 3500);
+    }
+
+    function stopAutoSlide() {
+      if (autoSlide) {
+        clearInterval(autoSlide);
+        autoSlide = null;
+      }
+    }
+
+    heroPrev.addEventListener("click", () => {
+      prevHeroSlide();
+      startAutoSlide();
+    });
+
+    heroNext.addEventListener("click", () => {
+      nextHeroSlide();
+      startAutoSlide();
+    });
+
+    heroSlider.addEventListener("mouseenter", stopAutoSlide);
+    heroSlider.addEventListener("mouseleave", startAutoSlide);
+    heroSlider.addEventListener("touchstart", stopAutoSlide, { passive: true });
+    heroSlider.addEventListener("touchend", startAutoSlide);
+
+    startAutoSlide();
+  }
+
+  // =========================
+  // SLIDER TROMBINOSCOPE
+  // =========================
+  const teamSlider = document.getElementById("teamSlider");
+  const prevBtnSlider = document.querySelector(".slider-btn-prev");
+  const nextBtnSlider = document.querySelector(".slider-btn-next");
+
+  if (teamSlider && prevBtnSlider && nextBtnSlider) {
+    const getScrollAmount = () => {
+      const card = teamSlider.querySelector(".person-card");
+      return card ? card.getBoundingClientRect().width + 18 : 300;
+    };
+
+    prevBtnSlider.addEventListener("click", () => {
+      teamSlider.scrollBy({
+        left: -getScrollAmount(),
+        behavior: "smooth"
+      });
+    });
+
+    nextBtnSlider.addEventListener("click", () => {
+      teamSlider.scrollBy({
+        left: getScrollAmount(),
+        behavior: "smooth"
+      });
+    });
+  }
+
+  // =========================
+  // LIGHTBOX / ZOOM
+  // =========================
   const images = [...document.querySelectorAll(".zoomable")];
   if (!images.length) return;
 
@@ -19,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   lightbox.innerHTML = `
     <div class="lightbox__backdrop"></div>
-    <button class="lightbox__nav lightbox__prev" type="button" aria-label="Photo précédente">&#10094;</button>
-    <button class="lightbox__nav lightbox__next" type="button" aria-label="Photo suivante">&#10095;</button>
+    <button class="lightbox_nav lightbox_prev" type="button" aria-label="Photo précédente">&#10094;</button>
+    <button class="lightbox_nav lightbox_next" type="button" aria-label="Photo suivante">&#10095;</button>
     <div class="lightbox__panel">
       <button class="lightbox__close" type="button" aria-label="Fermer">✕</button>
       <img class="lightbox__img" alt="">
@@ -40,9 +141,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function showImage(index) {
     currentIndex = index;
     const el = images[index];
-    img.src = el.getAttribute("src");
+    img.src = el.currentSrc || el.src;
     img.alt = el.alt || "";
-    caption.textContent = el.dataset.caption || "";
+    caption.textContent = el.dataset.caption || el.alt || "";
     lightbox.classList.add("open");
     document.body.classList.add("no-scroll");
   }
@@ -63,25 +164,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   images.forEach((el, index) => {
-    el.addEventListener("click", () => showImage(index));
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      showImage(index);
+    });
   });
 
+  closeBtn.addEventListener("click", closeLightbox);
+  backdrop.addEventListener("click", closeLightbox);
   prevBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     prevImage();
   });
-
   nextBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     nextImage();
   });
-
-  closeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    closeLightbox();
-  });
-
-  backdrop.addEventListener("click", closeLightbox);
 
   document.addEventListener("keydown", (e) => {
     if (!lightbox.classList.contains("open")) return;

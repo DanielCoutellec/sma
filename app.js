@@ -1,15 +1,133 @@
 const express = require("express");
 const path = require("path");
-const expressLayouts = require("express-ejs-layouts");
 const fs = require("fs");
+const expressLayouts = require("express-ejs-layouts");
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
+// =========================
+// CONFIG
+// =========================
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+app.use(expressLayouts);
+app.set("layout", "layout");
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// =========================
+// HELPERS
+// =========================
+function loadJson(relativePath, fallback = []) {
+  try {
+    const fullPath = path.join(__dirname, relativePath);
+
+    if (!fs.existsSync(fullPath)) return fallback;
+
+    const raw = fs.readFileSync(fullPath, "utf8");
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error("Erreur lecture JSON: " + relativePath, err);
+    return fallback;
+  }
+}
+
+// =========================
+// DATA
+// =========================
+function getMembres() {
+  return loadJson("data/membres.json", []);
+}
+
+function getCourses() {
+  return loadJson("data/courses2026.json", []);
+}
+
+// =========================
+// GROUP COURSES PAR MOIS
+// =========================
+function groupCourses(courses) {
+  const grouped = {};
+
+  courses.forEach((c) => {
+    const mois = c.mois || "Autres";
+
+    if (!grouped[mois]) grouped[mois] = [];
+    grouped[mois].push(c);
+  });
+
+  return Object.keys(grouped).map((mois) => ({
+    mois: mois,
+    items: grouped[mois]
+  }));
+}
+
+// =========================
+// ROUTES
+// =========================
+app.get("/", (req, res) => {
+  res.render("index", {
+    currentPath: "/"
+  });
+});
+
+app.get("/ag", (req, res) => {
+  res.render("ag", {
+    currentPath: "/ag"
+  });
+});
+
+app.get("/participations", (req, res) => {
+  res.render("participations", {
+    currentPath: "/participations"
+  });
+});
+
+app.get("/contact", (req, res) => {
+  res.render("contact", {
+    currentPath: "/contact"
+  });
+});
+
+// =========================
+// TROMBINOSCOPE
+// =========================
+app.get("/trombinoscope", (req, res) => {
+  const membres = getMembres();
+
+  res.render("trombinoscope", {
+    currentPath: "/trombinoscope",
+    membres: membres
+  });
+});
+
+// =========================
+// COURSES
+// =========================
+app.get("/courses2026", (req, res) => {
+  const courses = getCourses();
+  const groupedCourses = groupCourses(courses);
+
+  res.render("courses2026", {
+    currentPath: "/courses2026",
+    courses: courses,
+    groupedCourses: groupedCourses
+  });
+});
+
+// =========================
+// GALERIE PHOTOS
+// =========================
 app.get("/photos/:slug", (req, res) => {
   try {
     const slug = req.params.slug;
 
-    const galleryDir = path.join(
-      process.cwd(),
+    const dir = path.join(
+      __dirname,
       "public",
       "img",
       "Course",
@@ -17,182 +135,38 @@ app.get("/photos/:slug", (req, res) => {
       slug
     );
 
-    if (!fs.existsSync(galleryDir)) {
+    if (!fs.existsSync(dir)) {
       return res.status(404).send("Galerie introuvable");
     }
 
-    const allowedExt = [".jpg", ".jpeg", ".png", ".webp"];
-    const files = fs
-      .readdirSync(galleryDir)
-      .filter((file) => allowedExt.includes(path.extname(file).toLowerCase()))
-      .sort((a, b) => a.localeCompare(b, "fr"));
+    const files = fs.readdirSync(dir);
 
-    const photos = files.map(
-      (file) => `/img/Course/photos/${slug}/${file}`
-    );
+    const photos = files.map(function (file) {
+      return "/img/Course/photos/" + slug + "/" + file;
+    });
 
     res.render("photos", {
       currentPath: "",
-      slug,
-      photos,
+      slug: slug,
+      photos: photos
     });
+
   } catch (err) {
-    console.error("ERROR /photos/:slug", err);
-    res.status(500).send("Erreur serveur galerie");
-  }
-});
-// --- Static files (/css, /js, /img...) ---
-app.use(express.static(path.join(__dirname, "public")));
-
-// --- EJS + Layouts ---
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(expressLayouts);
-app.set("layout", "layout"); // views/layout.ejs
-
-// --- Forms (POST) ---
-app.use(express.urlencoded({ extended: true }));
-
-// --- Helpers ---
-const monthIndex = (mois) => {
-  const m = String(mois || "").toLowerCase();
-  if (m.includes("jan")) return 1;
-  if (m.includes("fev") || m.includes("fév")) return 2;
-  if (m.includes("mar")) return 3;
-  if (m.includes("avr")) return 4;
-  if (m.includes("mai")) return 5;
-  if (m.includes("jui") && !m.includes("juil")) return 6; // juin
-  if (m.includes("juil")) return 7;
-  if (m.includes("aou") || m.includes("aoû")) return 8;
-  if (m.includes("sep")) return 9;
-  if (m.includes("oct")) return 10;
-  if (m.includes("nov")) return 11;
-  if (m.includes("dec") || m.includes("déc")) return 12;
-  return 99;
-};
-
-const dateKey = (d = "") => {
-  // dd/mm/yyyy -> yyyy-mm-dd (tri lexicographique)
-  const parts = String(d).split("/");
-  if (parts.length !== 3) return "9999-99-99";
-  const [dd, mm, yyyy] = parts;
-  return `${yyyy}-${String(mm).padStart(2, "0")}-${String(dd).padStart(2, "0")}`;
-};
-
-// --- Routes ---
-app.get("/", (req, res) => res.render("index", { currentPath: "/" }));
-
-app.get("/ag", (req, res) => res.render("ag", { currentPath: "/ag" }));
-
-app.get("/participations", (req, res) =>
-  res.render("participations", { currentPath: "/participations" })
-);
-
-app.get("/courses2026", (req, res) => {
-  try {
-    // Sur Vercel, process.cwd() est la racine du projet déployé
-    const file = path.join(process.cwd(), "data", "courses2026.json");
-
-    let courses = [];
-    if (fs.existsSync(file)) {
-      courses = JSON.parse(fs.readFileSync(file, "utf8"));
-    }
-
-    const cleanCourses = (Array.isArray(courses) ? courses : []).map((c) => ({
-      ...c,
-      mois: c?.mois ?? "",
-      date: c?.date ?? "",
-      epreuve: c?.epreuve ?? "",
-      lieu: c?.lieu ?? "",
-      type: c?.type ?? "",
-      statut: c?.statut ?? "Prévisionnel",
-      photos: c?.photos ?? "",
-      classement: c?.classement ?? "",
-    }));
-
-    // tri global : d’abord par mois, puis par date
-    cleanCourses.sort((a, b) => {
-      const ma = monthIndex(a.mois);
-      const mb = monthIndex(b.mois);
-      if (ma !== mb) return ma - mb;
-      return dateKey(a.date).localeCompare(dateKey(b.date));
-    });
-
-    // groupBy mois
-    const groupsMap = new Map();
-    for (const c of cleanCourses) {
-      const key = c.mois || "Autres";
-      if (!groupsMap.has(key)) groupsMap.set(key, []);
-      groupsMap.get(key).push(c);
-    }
-
-    const groupedCourses = Array.from(groupsMap.entries())
-      .sort(([a], [b]) => monthIndex(a) - monthIndex(b))
-      .map(([mois, items]) => ({ mois, items }));
-
-    res.render("courses2026", {
-      currentPath: "/courses2026",
-      courses: cleanCourses,
-      groupedCourses,
-    });
-  } catch (err) {
-    console.error("ERROR /courses2026:", err);
-    res.status(500).send("Erreur serveur /courses2026 : " + err.message);
+    console.error("Erreur galerie", err);
+    res.status(500).send("Erreur serveur");
   }
 });
 
-app.get("/trombinoscope", (req, res) => {
-  const membres = JSON.parse(
-    fs.readFileSync(path.join(process.cwd(), "data", "membres.json"), "utf-8")
-  );
-
-  res.render("trombinoscope", {
-    currentPath: "/trombinoscope",
-    membres,
-  });
+// =========================
+// 404
+// =========================
+app.use((req, res) => {
+  res.status(404).send("Page introuvable");
 });
 
-app.get("/contact", (req, res) =>
-  res.render("contact", { currentPath: "/contact" })
-);
-
-// POST contact (simulation)
-app.post("/contact", (req, res) => {
-  res.render("contact", { currentPath: "/contact" });
+// =========================
+// START
+// =========================
+app.listen(PORT, () => {
+  console.log("Serveur démarré : http://localhost:" + PORT);
 });
-
-// --- Local server only (important for Vercel) ---
-const PORT = process.env.PORT || 3000;
-if (require.main === module) {
-  app.listen(PORT, () =>
-    console.log(`✅ Serveur démarré : http://localhost:${PORT}`)
-  );
-}
-
-// --- Export for Vercel ---
-app.get("/photos/:slug", (req, res) => {
-  const slug = req.params.slug;
-
-  // Dossier des photos dans /public
-  const dir = path.join(process.cwd(), "public", "img", "courses", slug);
-
-  let photos = [];
-  try {
-    if (fs.existsSync(dir)) {
-      photos = fs
-        .readdirSync(dir)
-        .filter((f) => /\.(jpe?g|png|webp|gif)$/i.test(f))
-        .sort()
-        .map((f) => `/img/courses/${slug}/${f}`);
-    }
-  } catch (e) {
-    console.error("Gallery error:", e);
-  }
-
-  res.render("photos", {
-    currentPath: "/courses2026",
-    slug,
-    photos,
-  });
-});
-module.exports = app;

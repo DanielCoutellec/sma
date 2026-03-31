@@ -1,5 +1,6 @@
 <section class="section">
   <div class="container">
+
     <div class="page-head">
       <p class="page-kicker">GALERIE</p>
       <h1 class="page-title">Photos de la course</h1>
@@ -11,25 +12,48 @@
     </div>
 
     <% if (photos && photos.length) { %>
-      <div class="gallery-grid" style="margin-top:18px;">
-        <% photos.forEach(function(photo, index) { %>
-          <div class="gallery-item">
-            <img
-              src="<%= photo %>"
-              alt="Photo course <%= index + 1 %>"
-              class="zoomable"
-              data-caption="Photo <%= index + 1 %> — <%= slug %>"
-            />
-          </div>
-        <% }) %>
+
+      <div style="margin-top:18px;">
+        <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:12px;">
+
+          <% photos.forEach(function(photo, index) { %>
+            <div style="
+              border-radius:14px;
+              overflow:hidden;
+              border:1px solid rgba(255,255,255,0.08);
+              background:rgba(255,255,255,0.03);
+              box-shadow:0 10px 30px rgba(0,0,0,0.25);
+            ">
+              <img
+                src="<%= photo %>"
+                alt="Photo <%= index + 1 %>"
+                class="zoomable"
+                data-caption="Photo <%= index + 1 %> — <%= slug %>"
+                style="
+                  width:100%;
+                  height:200px;
+                  object-fit:cover;
+                  display:block;
+                "
+              />
+            </div>
+          <% }) %>
+
+        </div>
       </div>
+
     <% } else { %>
+
       <div class="table-card" style="margin-top:18px;">
         <div class="table-head">
           <h2>Galerie</h2>
-          <p class="muted" style="margin:0;">Aucune photo disponible.</p>
+          <p class="muted" style="margin:0;">
+            Aucune photo disponible.
+          </p>
         </div>
       </div>
+
     <% } %>
+
   </div>
 </section>

@@ -1,11 +1,8 @@
 <section class="section">
   <div class="container">
-
-    <!-- HEADER -->
     <div class="page-head">
       <p class="page-kicker">L’ÉQUIPE</p>
       <h1 class="page-title">Trombinoscope</h1>
-
       <p class="muted page-lead">
         Les motards SMA mobilisés pour la sécurité, l’information et l’assistance sur les courses.
       </p>
@@ -16,16 +13,12 @@
       </div>
     </div>
 
-    <!-- GRID MEMBRES -->
-    <div class="team-grid">
+    <div class="slider-wrap" style="margin-top:20px;">
+      <button class="slider-btn slider-btn-prev" type="button" aria-label="Précédent">‹</button>
 
-      <% membres.forEach((m, index) => { %>
-
-        <article class="person-card">
-
-          <!-- TOP -->
-          <div class="person-top">
-
+      <div class="team-slider" id="teamSlider">
+        <% (membres || []).forEach((m) => { %>
+          <article class="person-card">
             <div class="avatar">
               <img
                 src="<%= m.photo %>"
@@ -45,36 +38,22 @@
 
               <% if (m.tags && m.tags.length) { %>
                 <div class="person-tags">
-                  <% m.tags.forEach(tag => { %>
+                  <% m.tags.forEach((tag) => { %>
                     <span><%= tag %></span>
                   <% }) %>
                 </div>
               <% } %>
             </div>
 
-          </div>
-
-          <!-- BOTTOM -->
-          <div class="person-actions">
-            <span class="muted"><%= m.dept || "SMA" %></span>
-          </div>
-
-        </article>
-
-      <% }) %>
-
-    </div>
-
-    <!-- CTA -->
-    <section class="section section-alt" style="border-radius:22px; margin-top:18px;">
-      <div class="container" style="padding-top:22px; padding-bottom:22px;">
-        <h2 style="margin:0 0 8px;">Envie de rejoindre SMA ?</h2>
-        <p class="muted" style="margin:0 0 14px;">
-          Motard(e) bénévole, formé(e) ou motivé(e) : écris-nous et on t’explique la démarche.
-        </p>
-        <a href="/contact" class="btn btn-primary">Nous écrire</a>
+            <div class="person-actions">
+              <span class="muted"><%= m.dept || "SMA" %></span>
+             
+            </div>
+          </article>
+        <% }) %>
       </div>
-    </section>
 
+      <button class="slider-btn slider-btn-next" type="button" aria-label="Suivant">›</button>
+    </div>
   </div>
 </section>
