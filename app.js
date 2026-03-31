@@ -11,7 +11,6 @@ const PORT = process.env.PORT || 3000;
 // =========================
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
 app.use(expressLayouts);
 app.set("layout", "layout");
 
@@ -20,54 +19,25 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // =========================
+// DATA DIRECTE (robuste Vercel)
+// =========================
+const membres = require("./data/membres.json");
+const courses2026 = require("./data/courses2026.json");
+
+// =========================
 // HELPERS
-// =========================
-function loadJson(relativePath, fallback = []) {
-  try {
-    const fullPath = path.resolve(process.cwd(), relativePath);
-
-    console.log("READ FILE:", fullPath);
-
-    if (!fs.existsSync(fullPath)) {
-      console.log("FILE NOT FOUND:", fullPath);
-      return fallback;
-    }
-
-    const raw = fs.readFileSync(fullPath, "utf8");
-    return JSON.parse(raw);
-
-  } catch (err) {
-    console.error("JSON ERROR:", err);
-    return fallback;
-  }
-}
-
-// =========================
-// DATA
-// =========================
-function getMembres() {
-  return loadJson("data/membres.json", []);
-}
-
-function getCourses() {
-  return loadJson("data/courses2026.json", []);
-}
-
-// =========================
-// GROUP COURSES PAR MOIS
 // =========================
 function groupCourses(courses) {
   const grouped = {};
 
   courses.forEach((c) => {
     const mois = c.mois || "Autres";
-
     if (!grouped[mois]) grouped[mois] = [];
     grouped[mois].push(c);
   });
 
   return Object.keys(grouped).map((mois) => ({
-    mois: mois,
+    mois,
     items: grouped[mois]
   }));
 }
@@ -99,80 +69,57 @@ app.get("/contact", (req, res) => {
   });
 });
 
-// =========================
-// TROMBINOSCOPE
-// =========================
 app.get("/trombinoscope", (req, res) => {
-  const membres = getMembres();
-
   res.render("trombinoscope", {
     currentPath: "/trombinoscope",
     membres: membres
   });
 });
 
-// =========================
-// COURSES
-// =========================
 app.get("/courses2026", (req, res) => {
-  const courses = getCourses();
-  const groupedCourses = groupCourses(courses);
-
   res.render("courses2026", {
     currentPath: "/courses2026",
-    courses: courses,
-    groupedCourses: groupedCourses
+    courses: courses2026,
+    groupedCourses: groupCourses(courses2026)
   });
 });
 
-// =========================
-// GALERIE PHOTOS
-// =========================
 app.get("/photos/:slug", (req, res) => {
   try {
     const slug = req.params.slug;
-
-    const dir = path.join(
-      __dirname,
-      "public",
-      "img",
-      "course",
-      "photos",
-      slug
-    );
+    const dir = path.join(__dirname, "public", "img", "course", "photos", slug);
 
     if (!fs.existsSync(dir)) {
       return res.status(404).send("Galerie introuvable");
     }
 
-    const files = fs.readdirSync(dir);
-
-    const photos = files.map(function (file) {
-      return "/img/course/photos/" + slug + "/" + file;
+    const files = fs.readdirSync(dir).filter((file) => {
+      const lower = file.toLowerCase();
+      return (
+        lower.endsWith(".jpg") ||
+        lower.endsWith(".jpeg") ||
+        lower.endsWith(".png") ||
+        lower.endsWith(".webp")
+      );
     });
+
+    const photos = files.map((file) => "/img/course/photos/" + slug + "/" + file);
 
     res.render("photos", {
       currentPath: "",
       slug: slug,
       photos: photos
     });
-
   } catch (err) {
     console.error("Erreur galerie", err);
     res.status(500).send("Erreur serveur");
   }
 });
 
-// =========================
-// 404
-// =========================
 app.use((req, res) => {
   res.status(404).send("Page introuvable");
 });
 
-// =========================
-// START
-// =========================
 app.listen(PORT, () => {
   console.log("Serveur démarré : http://localhost:" + PORT);
 });
