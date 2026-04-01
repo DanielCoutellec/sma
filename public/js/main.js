@@ -20,63 +20,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const heroNext = document.querySelector(".hero-slider-btn-next");
 
   if (heroSlider && heroPrev && heroNext) {
-    let autoSlide = null;
-
-    const getHeroScrollAmount = () => {
+    const getHeroStep = () => {
       const slide = heroSlider.querySelector(".hero-slide");
-      return slide ? slide.getBoundingClientRect().width + 10 : heroSlider.clientWidth;
+      if (!slide) return heroSlider.clientWidth;
+
+      const sliderStyle = window.getComputedStyle(heroSlider);
+      const gap = parseFloat(sliderStyle.gap || "12") || 12;
+
+      return slide.getBoundingClientRect().width + gap;
     };
 
-    const nextHeroSlide = () => {
-      const amount = getHeroScrollAmount();
-      const maxScrollLeft = heroSlider.scrollWidth - heroSlider.clientWidth;
-
-      if (heroSlider.scrollLeft >= maxScrollLeft - 5) {
-        heroSlider.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        heroSlider.scrollBy({ left: amount, behavior: "smooth" });
-      }
-    };
-
-    const prevHeroSlide = () => {
-      const amount = getHeroScrollAmount();
-      const maxScrollLeft = heroSlider.scrollWidth - heroSlider.clientWidth;
-
-      if (heroSlider.scrollLeft <= 5) {
-        heroSlider.scrollTo({ left: maxScrollLeft, behavior: "smooth" });
-      } else {
-        heroSlider.scrollBy({ left: -amount, behavior: "smooth" });
-      }
-    };
-
-    function startAutoSlide() {
-      stopAutoSlide();
-      autoSlide = setInterval(nextHeroSlide, 3500);
-    }
-
-    function stopAutoSlide() {
-      if (autoSlide) {
-        clearInterval(autoSlide);
-        autoSlide = null;
-      }
-    }
-
-    heroPrev.addEventListener("click", () => {
-      prevHeroSlide();
-      startAutoSlide();
+    heroPrev.addEventListener("click", (e) => {
+      e.preventDefault();
+      heroSlider.scrollBy({
+        left: -getHeroStep(),
+        behavior: "smooth"
+      });
     });
 
-    heroNext.addEventListener("click", () => {
-      nextHeroSlide();
-      startAutoSlide();
+    heroNext.addEventListener("click", (e) => {
+      e.preventDefault();
+      heroSlider.scrollBy({
+        left: getHeroStep(),
+        behavior: "smooth"
+      });
     });
-
-    heroSlider.addEventListener("mouseenter", stopAutoSlide);
-    heroSlider.addEventListener("mouseleave", startAutoSlide);
-    heroSlider.addEventListener("touchstart", stopAutoSlide, { passive: true });
-    heroSlider.addEventListener("touchend", startAutoSlide);
-
-    startAutoSlide();
   }
 
   // =========================
@@ -87,21 +55,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextBtnSlider = document.querySelector(".slider-btn-next");
 
   if (teamSlider && prevBtnSlider && nextBtnSlider) {
-    const getScrollAmount = () => {
+    const getTeamStep = () => {
       const card = teamSlider.querySelector(".person-card");
-      return card ? card.getBoundingClientRect().width + 18 : 300;
+      if (!card) return 300;
+
+      const sliderStyle = window.getComputedStyle(teamSlider);
+      const gap = parseFloat(sliderStyle.gap || "18") || 18;
+
+      return card.getBoundingClientRect().width + gap;
     };
 
-    prevBtnSlider.addEventListener("click", () => {
+    prevBtnSlider.addEventListener("click", (e) => {
+      e.preventDefault();
       teamSlider.scrollBy({
-        left: -getScrollAmount(),
+        left: -getTeamStep(),
         behavior: "smooth"
       });
     });
 
-    nextBtnSlider.addEventListener("click", () => {
+    nextBtnSlider.addEventListener("click", (e) => {
+      e.preventDefault();
       teamSlider.scrollBy({
-        left: getScrollAmount(),
+        left: getTeamStep(),
         behavior: "smooth"
       });
     });
@@ -114,6 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!images.length) return;
 
   let currentIndex = 0;
+  let touchStartX = 0;
+  let touchEndX = 0;
 
   const lightbox = document.createElement("div");
   lightbox.className = "lightbox";
@@ -137,13 +114,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevBtn = lightbox.querySelector(".lightbox__prev");
   const nextBtn = lightbox.querySelector(".lightbox__next");
   const backdrop = lightbox.querySelector(".lightbox__backdrop");
+  const panel = lightbox.querySelector(".lightbox__panel");
 
   function showImage(index) {
     currentIndex = index;
-    const el = images[index];
+    const el = images[currentIndex];
+
     img.src = el.currentSrc || el.src;
     img.alt = el.alt || "";
     caption.textContent = el.dataset.caption || el.alt || "";
+
     lightbox.classList.add("open");
     document.body.classList.add("no-scroll");
   }
@@ -171,21 +151,48 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  closeBtn.addEventListener("click", closeLightbox);
+  closeBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    closeLightbox();
+  });
+
   backdrop.addEventListener("click", closeLightbox);
+
   prevBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     e.stopPropagation();
     prevImage();
   });
+
   nextBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     e.stopPropagation();
     nextImage();
   });
 
   document.addEventListener("keydown", (e) => {
     if (!lightbox.classList.contains("open")) return;
+
     if (e.key === "ArrowRight") nextImage();
     if (e.key === "ArrowLeft") prevImage();
     if (e.key === "Escape") closeLightbox();
   });
-});
+
+  // Swipe mobile
+  panel.addEventListener("touchstart", (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+  }, { passive: true });
+
+  panel.addEventListener("touchend", (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const delta = touchEndX - touchStartX;
+
+    if (Math.abs(delta) < 40) return;
+
+    if (delta < 0) {
+      nextImage();
+    } else {
+      prevImage();
+    }
+  }, { passive: true });

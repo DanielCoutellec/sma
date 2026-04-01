@@ -1,138 +1,95 @@
 <section class="section">
   <div class="container">
+
+    <!-- HEADER -->
     <div class="page-head">
       <p class="page-kicker">CALENDRIER</p>
       <h1 class="page-title">Courses 2026</h1>
       <p class="muted page-lead">
-        Planning prévisionnel des épreuves accompagnées en 2026.
-        Les informations peuvent évoluer : contactez-nous pour confirmer la disponibilité SMA.
+        Planning des épreuves accompagnées par SMA.
       </p>
 
       <div class="page-actions">
         <a href="/contact" class="btn btn-primary">Demander une assistance</a>
-        <a href="/participations" class="btn btn-ghost">Participations</a>
+        <a href="/trombinoscope" class="btn btn-ghost">Voir l’équipe</a>
       </div>
     </div>
 
+    <!-- KPI -->
     <div class="kpi-grid">
       <div class="kpi-card">
-        <p class="kpi-label">Épreuves</p>
+        <p class="kpi-label">Courses</p>
         <p class="kpi-value"><%= (courses || []).length %></p>
-        <p class="kpi-note">Route · Critériums · Cyclosportives</p>
       </div>
 
       <div class="kpi-card">
         <p class="kpi-label">Zone</p>
         <p class="kpi-value">Nouvelle-Aquitaine</p>
-        <p class="kpi-note">Selon disponibilité</p>
       </div>
 
       <div class="kpi-card">
-        <p class="kpi-label">Contact organisation</p>
-        <p class="kpi-value">SMA</p>
-        <p class="kpi-note">Réponse rapide</p>
+        <p class="kpi-label">Disponibilité</p>
+        <p class="kpi-value">Sur demande</p>
       </div>
     </div>
 
-    <% if (groupedCourses && groupedCourses.length) { %>
-      <% groupedCourses.forEach(function(group){ %>
-        <section style="margin-top:18px;">
-          <h2 style="margin:0 0 10px;"><%= group.mois %></h2>
+    <!-- LISTE -->
+    <% groupedCourses.forEach(function(group){ %>
 
-          <div class="table-card">
-            <div class="table-head">
-              <h2>Liste des courses</h2>
-              <p class="muted" style="margin:0;">
-                Sur mobile, chaque course s’affiche en “carte”.
-              </p>
-            </div>
+      <div class="month-block">
+        <div class="month-title">
+          <h2><%= group.mois %></h2>
+          <span><%= group.items.length %> courses</span>
+        </div>
 
-            <div class="courses-table" role="table" aria-label="Courses 2026">
-              <div class="t-row t-head" role="row">
-                <div class="t-cell" role="columnheader">Date</div>
-                <div class="t-cell" role="columnheader">Épreuve</div>
-                <div class="t-cell" role="columnheader">Lieu</div>
-                <div class="t-cell" role="columnheader">Type</div>
-                <div class="t-cell" role="columnheader">Statut</div>
-                <div class="t-cell" role="columnheader">Photos</div>
-                <div class="t-cell" role="columnheader">Classement</div>
+        <div class="courses-grid">
+          <% group.items.forEach(function(course){ %>
+
+            <div class="course-card">
+
+              <div class="course-date">
+                <%= course.date || "-" %>
               </div>
 
-              <% group.items.forEach(function(course){ %>
-                <div class="t-row" role="row">
-                  <div class="t-cell" data-label="Date"><%= course.date %></div>
+              <h3 class="course-name">
+                <%= course.epreuve %>
+              </h3>
 
-                  <div class="t-cell" data-label="Épreuve"><%= course.epreuve %></div>
+              <div class="course-lieu">
+                📍 <%= course.lieu %>
+              </div>
 
-                 <div class="t-cell" data-label="Lieu">
-  <% if (course.lieu) { %>
-    <a
-      href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(course.lieu) %>"
-      target="_blank"
-      rel="noopener"
-      class="map-link"
-    >
-      📍 <%= course.lieu %>
-    </a>
-  <% } %>
-</div>
+              <div class="course-tags">
+                <span class="pill pill-blue"><%= course.type || "Course" %></span>
 
-                  <div class="t-cell" data-label="Type">
-                    <% if (course.type) { %>
-                      <span class="pill pill-blue"><%= course.type %></span>
-                    <% } %>
-                  </div>
+                <span class="pill <%= (course.statut || '').toLowerCase().includes('confirm') ? 'pill-green' : 'pill-yellow' %>">
+                  <%= course.statut || "Prévisionnel" %>
+                </span>
+              </div>
 
-                  <div class="t-cell" data-label="Statut">
-                    <span class="pill <%= (course.statut || '').toLowerCase().includes('confirm') ? 'pill-green' : 'pill-yellow' %>">
-                      <%= course.statut || "Prévisionnel" %>
-                    </span>
-                  </div>
+              <div class="course-actions">
 
-                  <div class="t-cell" data-label="Photos">
-  <% if (course.photos) { %>
-    <a
-      href="/photos/<%= course.photos %>"
-      class="btn-table"
-      title="Voir la galerie"
-    >
-      📷
-    </a>
-  <% } else { %>
-    <span class="btn-table is-disabled">📷</span>
-  <% } %>
-</div>
+                <% if (course.photos) { %>
+                  <a href="/photos/<%= course.photos %>" class="btn-table">📷</a>
+                <% } else { %>
+                  <span class="btn-table is-disabled">📷</span>
+                <% } %>
 
-                  <div class="t-cell" data-label="Classement">
-                    <% if (course.classement) { %>
-                      <a href="<%= course.classement %>" class="btn-table" target="_blank" rel="noopener">🏁</a>
-                    <% } else { %>
-                      <span class="btn-table is-disabled">🏁</span>
-                    <% } %>
-                  </div>
-                </div>
-              <% }) %>
+                <% if (course.classement) { %>
+                  <a href="<%= course.classement %>" target="_blank" class="btn-table">🏁</a>
+                <% } else { %>
+                  <span class="btn-table is-disabled">🏁</span>
+                <% } %>
+
+              </div>
+
             </div>
-          </div>
-        </section>
-      <% }) %>
-    <% } else { %>
-      <div class="table-card" style="margin-top:18px;">
-        <div class="table-head">
-          <h2>Liste des courses</h2>
-          <p class="muted" style="margin:0;">Aucune course enregistrée.</p>
+
+          <% }) %>
         </div>
       </div>
-    <% } %>
 
-    <section class="section section-alt" style="border-radius:22px; margin-top:18px;">
-      <div class="container" style="padding-top:22px; padding-bottom:22px;">
-        <h2 style="margin:0 0 8px;">Vous organisez une course en 2026 ?</h2>
-        <p class="muted" style="margin:0 0 14px;">
-          Date + lieu + format : on vous répond avec une proposition d’accompagnement.
-        </p>
-        <a href="/contact" class="btn btn-primary">Contacter SMA</a>
-      </div>
-    </section>
+    <% }) %>
+
   </div>
 </section>
