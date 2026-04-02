@@ -1,7 +1,7 @@
 [
   {
     "mois": "MARS 26",
-    "date": "1er MARS",
+    "date": "01/03/2026",
     "epreuve": "TOUR DES 4B",
     "lieu": "TOUVERAC  16360",
     "type": "",
@@ -18,12 +18,9 @@
     "date": "01/03/2026",
     "epreuve": "SAINT AUBIN DU MEDOC",
     "lieu": "BOURG",
-  "type": "Route",
-  "statut": "Passé",
-  "photos": "",
     "type": "",
     "statut": "Prévisionnel",
-    "photos": "saint-aubin-du-medoc",
+    "photos": "",
     "classement": "",
     "nb_motos": "2",
     "heure": "14H",
